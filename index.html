@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script>
+        function Aquarium(simulation){
+            console.log("Aquarium-constructor");
+            const canvas = document.getElementById("aquarium");
+            console.log("canvas = ", canvas);
+            console.log("simulation =", simulation);
+            const fishes = [];
+            console.log("Aquarium ended");
+        }
+    
+    </script>
+
+    <script>
+        
+        function Simulation() {
+            console.log("Simulation-constructor");
+            console.log(this);
+            // new Aquarium(this);
+            
+            // console.log(Aquarium.propriété);
+            // this.Aquarium = Aquarium;
+            // console.log(this.aquarium);
+        }
+
+        Simulation.prototype.init = function init (){
+            console.log("Simulation-init");
+            console.log(this);
+            this.aquarium = new Aquarium(this);
+        }
+
+        
+        
+
+    </script>
+
+    <script>
+        function runSimulation() {
+            console.log("runSimulation fonctionne");
+            const nouvelleSimu = new Simulation;
+            nouvelleSimu.init();
+            // Simulation.init();
+            console.log(nouvelleSimu.aquarium);
+            
+        }
+        
+    
+    </script>
+    <style>
+        #aquarium {
+            border: 2px solid black; 
+        }
+
+        #launcher {
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="aquarium" width="800" height="500"></canvas>
+    <button id="launcher" onclick="runSimulation()">Start</button>
+    
+</body>
+</html>
