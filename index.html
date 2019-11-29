@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +8,86 @@
     <title>Document</title>
 
     <script>
-        function Aquarium(simulation){
-            console.log("Aquarium-constructor");
-            const canvas = document.getElementById("aquarium");
-            console.log("canvas = ", canvas);
-            console.log("simulation =", simulation);
-            const fishes = [];
-            console.log("Aquarium ended");
+        function Fish(aquarium) {
+
+        };
+
+        Fish.prototype.calculNextPos = function () {
+
         }
-    
+
+
+
+    </script>
+
+
+    <script>
+        function Aquarium(simulation) {
+            console.log("Aquarium-constructor");
+            this.canvas = document.getElementById("aquarium");
+            this.simulation = simulation;
+            console.log("canvas = ", this.canvas);
+            console.log("simulation =", simulation);
+            this.fishes = [];
+            console.log("Aquarium ended");
+            const fn = function () {
+                console.log(this);
+                const that = this;
+                return function (event) {
+                    console.log(that);
+                    that.createFish();
+                };
+            };
+            // fn();
+            //fn.call(this);
+            this.canvas.addEventListener("click", fn.call(this));
+        };
+
+        Aquarium.prototype.createFish = function createFish() {
+            console.log("Aquarium-createFish")
+            const fish = new Fish(this);
+            this.fishes.push(fish);
+            console.log("fishes = ", this.fishes)
+
+
+        };
+
     </script>
 
     <script>
-        
+
         function Simulation() {
             console.log("Simulation-constructor");
             console.log(this);
-            // new Aquarium(this);
-            
-            // console.log(Aquarium.propriété);
-            // this.Aquarium = Aquarium;
-            // console.log(this.aquarium);
-        }
 
-        Simulation.prototype.init = function init (){
+            this.aquarium = undefined;
+            this.mouseX = undefined;
+            this.mouseY = undefined;
+
+
+        };
+
+        Simulation.prototype.init = function init() {
             console.log("Simulation-init");
             console.log(this);
             this.aquarium = new Aquarium(this);
+            this.aquarium.canvas.addEventListener("mousemove", function (event) {
+                const x = event.clientX;
+                const y = event.clientY;
+                this.mouseX = event.clientX;
+                this.mouseY = event.clientY;
+                console.log("x = " + x + ", y : " + y);
+
+
+
+            });
+
+
         }
 
-        
-        
+
+
+
 
     </script>
 
@@ -45,17 +95,44 @@
         function runSimulation() {
             console.log("runSimulation fonctionne");
             const nouvelleSimu = new Simulation;
+
             nouvelleSimu.init();
-            // Simulation.init();
+
+
+
+
+
             console.log(nouvelleSimu.aquarium);
-            
-        }
-        
-    
+
+        };
+
+        // function mouse(event) {
+        //     var x = event.clientX;
+        //     var y = event.clientY;
+        //     console.log("x = " + x + ", y : " + y);
+
+       //}
+
+        // function draw(xPos, yPos) {
+        //     var canvas = document.getElementById("aquarium");
+        //     var ctx = canvas.getContext("2d");
+        //     ctx.beginPath();
+        //     // ctx.fillRect(xPos,yPos, 9, 17);
+        //     ctx.arc(xPos, yPos, 25, 0, 2 * Math.PI);
+        //     ctx.fillStyle = "rgb(0, 0, 255)";
+        //     // ctx.moveTo(xPos, yPos);
+        //     // ctx.lineTo(xPos+ 20, yPos+20);
+        //     ctx.stroke();
+        //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // }
     </script>
+
+
+
     <style>
         #aquarium {
-            border: 2px solid black; 
+            border: 2px solid black;
         }
 
         #launcher {
@@ -63,9 +140,12 @@
         }
     </style>
 </head>
+
 <body>
     <canvas id="aquarium" width="800" height="500"></canvas>
     <button id="launcher" onclick="runSimulation()">Start</button>
-    
+    <button onclick="clear()">Clear</button>
+
 </body>
+
 </html>
